@@ -281,7 +281,7 @@ export default function Dashboard({ stats, onRefresh }: Props) {
 
         {/* LOGS TAB */}
         {!loading && tab === 'logs' && (
-          <div className="divide-y" style={{ divideColor: '#DDD5C0' }}>
+          <div className="divide-y divide-stone-300">
             {stats.recentLogs.length === 0 ? (
               <div className="text-center py-12 text-sm" style={{ color: '#7A6E5F' }}>No agent activity yet.</div>
             ) : stats.recentLogs.map((log, i) => {
