@@ -249,7 +249,7 @@ export default function Dashboard({ stats, onRefresh }: Props) {
                 No outreach prepared yet. Run Pam&apos;s outreach prep after leads are vetted.
               </div>
             ) : (
-              <div className="divide-y" style={{ divideColor: '#DDD5C0' }}>
+              <div className="divide-y divide-stone-300">
                 {outreach.map(o => (
                   <div key={o.id} className="p-3 flex items-center gap-3 hover:bg-amber-50 cursor-pointer transition-colors"
                     onClick={() => setSelectedOutreach(selectedOutreach?.id === o.id ? null : o)}>
