@@ -74,12 +74,12 @@ const AGENT_COLORS = {
 }
 
 const DESK_POSITIONS = {
-  dwight:   { col: 0.8, row: 0.8, label: 'SALES INTEL' },
-  jim:      { col: 2.8, row: 0.8, label: 'VETTING' },
-  oscar:    { col: 4.8, row: 0.8, label: 'LEGAL' },
-  angela:   { col: 0.8, row: 2.8, label: 'ACCOUNTS' },
-  pam:      { col: 2.8, row: 2.8, label: 'RECEPTION' },
-  harkirat: { col: 4.8, row: 2.8, label: "CEO OFFICE" },
+  dwight:   { col: 2.2, row: 1.4, label: 'SALES INTEL' },
+  jim:      { col: 3.6, row: 1.0, label: 'VETTING' },
+  oscar:    { col: 5.0, row: 1.4, label: 'LEGAL' },
+  angela:   { col: 4.2, row: 2.6, label: 'ACCOUNTS' },
+  pam:      { col: 2.2, row: 2.8, label: 'RECEPTION' },
+  harkirat: { col: 0.8, row: 0.8, label: "CEO OFFICE" },
 }
 
 const HANDOFF_SEQUENCE = [
@@ -398,7 +398,7 @@ export default function ScrantonOffice({ agentStatus, stats, selectedAgent, setS
 
     const resize = () => {
       const p = canvas.parentElement
-      if (p) { canvas.width = p.clientWidth; canvas.height = Math.min(540, Math.max(400, p.clientWidth * 0.55)) }
+      if (p) { canvas.width = p.clientWidth; canvas.height = Math.min(620, Math.max(480, p.clientWidth * 0.62)) }
     }
     resize()
     window.addEventListener('resize', resize)
@@ -409,7 +409,7 @@ export default function ScrantonOffice({ agentStatus, stats, selectedAgent, setS
       timeRef.current += dt
       const t = timeRef.current
       const W = canvas.width; const H = canvas.height
-      const tileW = Math.min(W / 9, 70); const tileH = tileW * 0.52
+      const tileW = Math.min(W / 7.5, 85); const tileH = tileW * 0.52
 
       ctx.clearRect(0, 0, W, H)
 
@@ -459,19 +459,31 @@ export default function ScrantonOffice({ agentStatus, stats, selectedAgent, setS
 
         // CEO office outline
         if (agent === 'harkirat') {
-          ctx.strokeStyle = '#6B4F3A'; ctx.lineWidth = 1.5
-          ctx.setLineDash([5, 3])
+          // CEO office solid walls
+          ctx.fillStyle = 'rgba(180,155,115,0.35)'
           ctx.beginPath()
-          ctx.moveTo(pos.x, pos.y - tileH * 1.8)
-          ctx.lineTo(pos.x + tileW * 1.4, pos.y - tileH * 0.2)
-          ctx.lineTo(pos.x, pos.y + tileH)
-          ctx.lineTo(pos.x - tileW * 1.4, pos.y - tileH * 0.2)
-          ctx.closePath(); ctx.stroke(); ctx.setLineDash([])
-          // "World's Best Boss" sign
+          ctx.moveTo(pos.x, pos.y - tileH * 2.2)
+          ctx.lineTo(pos.x + tileW * 1.8, pos.y - tileH * 0.4)
+          ctx.lineTo(pos.x, pos.y + tileH * 1.4)
+          ctx.lineTo(pos.x - tileW * 1.8, pos.y - tileH * 0.4)
+          ctx.closePath(); ctx.fill()
+          // Wall lines
+          ctx.strokeStyle = '#6B4F3A'; ctx.lineWidth = 2.5
+          ctx.beginPath()
+          ctx.moveTo(pos.x, pos.y - tileH * 2.2)
+          ctx.lineTo(pos.x + tileW * 1.8, pos.y - tileH * 0.4)
+          ctx.lineTo(pos.x, pos.y + tileH * 1.4)
+          ctx.lineTo(pos.x - tileW * 1.8, pos.y - tileH * 0.4)
+          ctx.closePath(); ctx.stroke()
+          // Room label
+          ctx.fillStyle = '#4A3020'
+          ctx.font = `bold ${Math.max(8, tileW * 0.11)}px "Special Elite", cursive`
+          ctx.textAlign = 'center'; ctx.fillText("MICHAEL'S OFFICE", pos.x, pos.y - tileH * 2.1)
+          // World's Best Boss mug
           ctx.fillStyle = '#854F0B'
-          ctx.beginPath(); ctx.roundRect(pos.x - 28, pos.y - tileH * 1.85, 56, 14, 2); ctx.fill()
-          ctx.fillStyle = '#F5E6C8'; ctx.font = `bold ${Math.max(6, tileW * 0.09)}px "Special Elite", cursive`
-          ctx.textAlign = 'center'; ctx.fillText("WORLD'S BEST BOSS", pos.x, pos.y - tileH * 1.7)
+          ctx.beginPath(); ctx.roundRect(pos.x + tileW * 0.6, pos.y - tileH * 0.8, 12, 14, 2); ctx.fill()
+          ctx.fillStyle = '#F5E6C8'; ctx.font = `${Math.max(5, tileW * 0.07)}px monospace`
+          ctx.textAlign = 'center'; ctx.fillText('★', pos.x + tileW * 0.6 + 6, pos.y - tileH * 0.55)
         }
 
         // Glow ring for working
@@ -483,7 +495,7 @@ export default function ScrantonOffice({ agentStatus, stats, selectedAgent, setS
         }
 
         drawDesk(ctx, pos.x, pos.y, tileW, tileH, colors, dp.label, status, t)
-        drawCharacter(ctx, pos.x, pos.y - tileH * 0.6, agent, status, t, Math.min(1.1, tileW / 55))
+        drawCharacter(ctx, pos.x, pos.y - tileH * 0.6, agent, status, t, Math.min(1.4, tileW / 44))
 
         // Speech bubble for this agent
         if (speechBubble?.agent === agent) {
@@ -543,7 +555,7 @@ export default function ScrantonOffice({ agentStatus, stats, selectedAgent, setS
     const mx = (e.clientX - rect.left) * (canvas.width / rect.width)
     const my = (e.clientY - rect.top) * (canvas.height / rect.height)
     const W = canvas.width; const H = canvas.height
-    const tileW = Math.min(W / 9, 70); const tileH = tileW * 0.52
+    const tileW = Math.min(W / 7.5, 85); const tileH = tileW * 0.52
     let hit: string | null = null; let minD = 999
     Object.entries(DESK_POSITIONS).forEach(([agent, dp]) => {
       const pos = isoToScreen(dp.col, dp.row, W, H, tileW, tileH)
@@ -560,7 +572,7 @@ export default function ScrantonOffice({ agentStatus, stats, selectedAgent, setS
   return (
     <div className="relative w-full" style={{ fontFamily: 'Courier Prime, monospace' }}>
       <div className="relative w-full">
-        <canvas ref={canvasRef} className="w-full cursor-pointer block" onClick={handleClick} />
+        <canvas ref={canvasRef} className="w-full cursor-pointer block" style={{ height: 620 }} onClick={handleClick} />
         {isRunning && (
           <div className="absolute top-3 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-sm text-xs font-bold tracking-widest animate-pulse"
             style={{ background: '#27500A', color: '#F5E6C8', fontFamily: 'Special Elite, cursive', letterSpacing: '2px', boxShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>
