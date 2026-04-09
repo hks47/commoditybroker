@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap');
+
+:root {
+  --carpet: #8B7355;
+  --wall: #D4C5A9;
+  --wood: #6B4F3A;
+  --paper: #F5F0E8;
+  --ink: #2C2416;
+  --muted: #7A6E5F;
+  --accent-green: #3B6D11;
+  --accent-amber: #854F0B;
+  --accent-red: #791F1F;
+  --accent-blue: #0C447C;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-typewriter), 'Courier New', monospace;
+  background: var(--carpet);
+  overflow-x: hidden;
+}
+
+.font-display {
+  font-family: var(--font-display), 'Special Elite', cursive;
+}
+
+.font-typewriter {
+  font-family: var(--font-typewriter), 'Courier Prime', monospace;
+}
+
+/* Carpet texture */
+.carpet-bg {
+  background: repeating-linear-gradient(
+    45deg,
+    #8B7355 0px, #8B7355 2px,
+    #7A6445 2px, #7A6445 12px
+  );
+}
+
+/* Paper texture */
+.paper-bg {
+  background: var(--paper);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 27px,
+      rgba(200, 184, 154, 0.3) 27px,
+      rgba(200, 184, 154, 0.3) 28px
+    );
+}
+
+/* Sticky note */
+.sticky {
+  background: #FFFFF0;
+  border: 1px solid rgba(200, 180, 0, 0.4);
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Animations */
+@keyframes idle-bob {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes working-type {
+  0%, 100% { transform: translateX(0px); }
+  25% { transform: translateX(1px) translateY(-1px); }
+  75% { transform: translateX(-1px) translateY(1px); }
+}
+
+@keyframes walk-right {
+  0% { transform: translateX(0px); }
+  25% { transform: translateX(8px) translateY(-2px); }
+  50% { transform: translateX(16px); }
+  75% { transform: translateX(24px) translateY(-2px); }
+  100% { transform: translateX(32px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes ticker-scroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes fade-slide-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes number-count {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-idle { animation: idle-bob 3s ease-in-out infinite; }
+.animate-working { animation: working-type 0.25s steps(2) infinite; }
+.animate-pulse-dot { animation: pulse-glow 1.5s ease-in-out infinite; }
+.animate-ticker { animation: ticker-scroll 30s linear infinite; }
+.animate-fade-up { animation: fade-slide-up 0.4s ease forwards; }
+.animate-count { animation: number-count 0.5s ease forwards; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar-thumb { background: var(--wood); border-radius: 3px; }
+
+/* Office glow for active agents */
+.agent-active {
+  box-shadow: 0 0 0 2px rgba(59, 109, 17, 0.4), 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.agent-processing {
+  box-shadow: 0 0 0 2px rgba(133, 79, 11, 0.4), 0 2px 8px rgba(0,0,0,0.15);
+}
